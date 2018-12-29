@@ -1,208 +1,97 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf200
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;\f2\fmodern\fcharset0 Courier-Bold;
-\f3\fswiss\fcharset0 ArialMT;\f4\fnil\fcharset0 Monaco;\f5\fnil\fcharset0 Verdana;
-}
-{\colortbl;\red255\green255\blue255;\red27\green29\blue31;\red235\green236\blue237;\red0\green0\blue0;
-\red255\green255\blue255;\red38\green38\blue38;\red246\green246\blue246;\red14\green14\blue14;\red255\green255\blue255;
-\red173\green173\blue173;\red13\green13\blue13;\red37\green127\blue159;\red36\green38\blue41;\red114\green121\blue129;
-\red43\green39\blue19;\red26\green26\blue26;}
-{\*\expandedcolortbl;;\cssrgb\c14118\c15294\c16078;\cssrgb\c93725\c94118\c94510;\csgray\c0;
-\csgray\c100000;\cssrgb\c20000\c20000\c20000;\cssrgb\c97255\c97255\c97255;\cssrgb\c6667\c6667\c6667;\cssrgb\c100000\c100000\c100000;
-\cssrgb\c73333\c73333\c73333;\cssrgb\c5882\c5882\c5882;\cssrgb\c16863\c56863\c68627;\cssrgb\c18824\c20000\c21176;\cssrgb\c52157\c54902\c57647;
-\cssrgb\c22353\c20000\c9412;\cssrgb\c13333\c13333\c13333;}
-\margl1440\margr1440\vieww13720\viewh11360\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+- filtered list of usb devices V
 
-\f0\fs24 \cf0 -list of usb devices\
-\pard\pardeftab720\sl300\partightenfactor0
+ioreg -p IOUSB -w0 | sed 's/[^o]*o //; s/@.*$//' | grep -v '^Root.*'
 
-\f1\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
-ioreg -p IOUSB -w0 -l\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
-- filtered list of usb devices V\
-\
-\pard\pardeftab720\sl300\partightenfactor0
 
-\f1\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
-ioreg -p IOUSB -w0 | sed 's/[^o]*o //; s/@.*$//' | grep -v '^Root.*'\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+-determine if micro controller is detected - 
+avrdude -c usbasp -p m328
 
-\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
-\
-\
--determine if micro controller is detected - \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f1\fs22 \cf4 \cb5 \CocoaLigature0 avrdude -c usbasp -p m328
-\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 \
-\
--flash the hex file \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+-flash the hex file 
+avrdude -c usbasp -p m328p -P usb -U flash:w:ledBlink.hex
 
-\f1\fs22 \cf4 \cb5 \CocoaLigature0 avrdude -c usbasp -p m328p -P usb -U flash:w:ledBlink.hex
-\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
-\
-\
--read the hex file -\
-\pard\pardeftab720\sl280\partightenfactor0
 
-\f2\b \cf6 \cb7 \expnd0\expndtw0\kerning0
-avrdude -c usbasp -p m328p -P usb -U flash:r:newFile.hex:r\
-\
-\
-===================++@=========\
-/// flash a c program to AVR ? create c program (example 1A.) =====\
-\
-// turn c to elf file \
-\pard\pardeftab720\sl300\sa300\partightenfactor0
+-read the hex file -
+avrdude -c usbasp -p m328p -P usb -U flash:r:newFile.hex:r
 
-\f1\b0\fs26 \cf8 \cb3 avr-gcc -mmcu=atmegaX yourpgm.c -o yourpgm.elf\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\fs22 \cf4 \cb5 \kerning1\expnd0\expndtw0 \CocoaLigature0 avr-gcc -mmcu=atmega328p test.c -o test.elf\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+===================++@=========
+/// flash a c program to AVR ? create c program (example 1A.) =====
 
-\fs26 \cf8 \cb3 \expnd0\expndtw0\kerning0
-\CocoaLigature1 \
-\pard\pardeftab720\sl300\sa300\partightenfactor0
-\cf8 // turn elf file to hex file 
-\f3\fs30 \cb9 \
+// turn c to elf file 
+avr-gcc -mmcu=atmegaX yourpgm.c -o yourpgm.elf
+avr-gcc -mmcu=atmega328p test.c -o test.elf
 
-\f1\fs26 \cb3 avr-objcopy -j .text -O ihex yourpgm.elf yourpgm.hex\
-\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+// turn elf file to hex file 
+avr-objcopy -j .text -O ihex yourpgm.elf yourpgm.hex
 
-\fs22 \cf4 \cb5 \kerning1\expnd0\expndtw0 \CocoaLigature0  avr-objcopy -j .text -O ihex test.elf test.hex\
-\
-&obviously 2 flash \'85 avrdude -c usbasp -p m328p -P usb -U flash:w:test.hex\
-\
+ avr-objcopy -j .text -O ihex test.elf test.hex
+
+&obviously 2 flash … avrdude -c usbasp -p m328p -P usb -U flash:w:test.hex
+
 avrdude -c usbasp -p m328p -P usb -U flash:w:test.hex
-\fs26 \cf8 \cb3 \expnd0\expndtw0\kerning0
-\CocoaLigature1 \
-\pard\pardeftab720\sl300\sa300\partightenfactor0
-\cf8 ====================++@=====================\
-\
-\
-CYPHER FUNK \'97\
-\
-this turns the .s file into an object file -that works \
-after this its the same old story . since u have .o file . \
-\pard\pardeftab720\sl340\partightenfactor0
+====================++@=====================
 
-\f4\fs26\fsmilli13167 \cf10 \cb11 avr-as -g -mmcu=atmega328p -o blink.o blink.s\
-\
-\
-\
-\pard\pardeftab720\sl300\sa300\partightenfactor0
 
-\f1\fs26 \cf8 \cb3 this turns the .o file into an .elf file - that works \
-\pard\pardeftab720\sl340\partightenfactor0
+CYPHER FUNK —
 
-\f4\fs26\fsmilli13167 \cf10 \cb11 avr-ld -o blink.elf blink.o\
-\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+this turns the .s file into an object file -that works 
+after this its the same old story . since u have .o file . 
+avr-as -g -mmcu=atmega328p -o blink.o blink.s
 
-\f1\fs22 \cf4 \cb5 \kerning1\expnd0\expndtw0 \CocoaLigature0 avr-objcopy -j .text -O ihex blink.elf blink.hex\
-\
 
-\f4\fs26\fsmilli13167 \cf10 \cb11 \expnd0\expndtw0\kerning0
-\CocoaLigature1 \
-\pard\pardeftab720\sl340\sa438\partightenfactor0
-\cf10 avrdude 
-\f1\fs22 \cf4 \cb5 \kerning1\expnd0\expndtw0 \CocoaLigature0 -c usbasp -p m328p -P usb
-\f4\fs26\fsmilli13167 \cf10 \cb11 \expnd0\expndtw0\kerning0
-\CocoaLigature1  -U flash:w:blink.hex
-\f1\fs26 \cf8 \cb3 \
-\pard\pardeftab720\sl300\sa300\partightenfactor0
-\cf8 \cb3 \
-\pard\pardeftab720\sl340\partightenfactor0
-\cf8 \cb3 \
-\pard\pardeftab720\sl300\sa300\partightenfactor0
-\cf8 \cb3 \
-\
-\'97\'97\'97\'97\'97+++++++++ \'97\'97\'97\
-/// flash an asm program to AVR ? \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\fs22 \cf4 \cb5 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
-///avra command takes assembly code and makes a bunch of hex and obj files. //\
-\
-\
-avra blink.S \
-\
-\pard\pardeftab720\sl280\partightenfactor0
-\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\
+this turns the .o file into an .elf file - that works 
+avr-ld -o blink.elf blink.o
+
+avr-objcopy -j .text -O ihex blink.elf blink.hex
+
+
+avrdude -c usbasp -p m328p -P usb -U flash:w:blink.hex
+
+
+
+
+—————+++++++++ ———
+/// flash an asm program to AVR ? 
+
+///avra command takes assembly code and makes a bunch of hex and obj files. //
+
+
+avra blink.S 
+
+
+
 avrdude -c usbasp -p m328p -P usb -U flash:w:ledBlink.S.hex
-\fs26 \cf8 \cb3 \expnd0\expndtw0\kerning0
-\CocoaLigature1 \
 
-\fs22 \cf4 \cb5 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
-\
-\
-\pard\pardeftab720\sl300\sa300\partightenfactor0
 
-\fs26 \cf8 \cb3 \expnd0\expndtw0\kerning0
-\CocoaLigature1 \
-\
-\
-\
-==============\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
-\pard\pardeftab720\sl360\sa300\partightenfactor0
 
-\f5\fs30 \cf2 \cb9 \'a0If all is set up correctly, avrdude will show a 100% progress bar.\
-\pard\pardeftab720\sl300\partightenfactor0
 
-\f1\fs26 \cf12 \cb3 Reading\cf13  | \cf14 ################################## | 100%\cf15 \
-\pard\pardeftab720\sl360\sa300\partightenfactor0
 
-\f5\fs30 \cf2 \cb9 In this case the programmer proven is fully functional\
-\pard\pardeftab720\sl300\sa300\partightenfactor0
 
-\f3 \cf8 =============\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-othercrap\'97
-\f1\fs26 \cf13 \cb3 avr-gcc blink.S -mmcu=
-\fs22 \cf4 \cb5 \kerning1\expnd0\expndtw0 \CocoaLigature0 atmega328p
-\fs26 \cf13 \cb3 \expnd0\expndtw0\kerning0
-\CocoaLigature1  -o blink.out\
-\pard\pardeftab720\sl300\partightenfactor0
-\cf13 \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
 
-\fs22 \cf4 \cb5 \kerning1\expnd0\expndtw0 \CocoaLigature0 avr-gcc -mmcu=atmega328p ledBlink.c -o ledBlink.elf
-\fs26 \cf13 \cb3 \expnd0\expndtw0\kerning0
-\CocoaLigature1 \
-\pard\pardeftab720\sl300\partightenfactor0
-\cf13 \
-\
-avr-objcopy -O ihex blinky.out blinky.hex\
-sudo avrdude -p attiny85 -c usbasp -P usb -e -U flash:w:blinky.hex\cf15 \
-\pard\pardeftab720\sl300\sa300\partightenfactor0
-\cf8 \
-\pard\pardeftab720\sl280\partightenfactor0
+==============——————————————————————————
+ If all is set up correctly, avrdude will show a 100% progress bar.
+Reading | ################################## | 100%
+In this case the programmer proven is fully functional
+=============——————————————
 
-\f3\b\fs24 \cf16 \cb9 avrdude -p m328p -c stk500v1 -b 57600 -P /dev/ttyUSB0 -U flash:w:hello.hex
-\f1\b0\fs22 \cf4 \cb5 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
-\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
 
-\fs26 \cf8 \cb3 \expnd0\expndtw0\kerning0
-\CocoaLigature1 \
-\pard\pardeftab720\sl300\sa300\partightenfactor0
-\cf8 \
-}
+
+
+
+
+
+
+
+othercrap—avr-gcc blink.S -mmcu=atmega328p -o blink.out
+
+avr-gcc -mmcu=atmega328p ledBlink.c -o ledBlink.elf
+
+
+avr-objcopy -O ihex blinky.out blinky.hex
+sudo avrdude -p attiny85 -c usbasp -P usb -e -U flash:w:blinky.hex
+
+avrdude -p m328p -c stk500v1 -b 57600 -P /dev/ttyUSB0 -U flash:w:hello.hex
+
